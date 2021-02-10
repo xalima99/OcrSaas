@@ -1,0 +1,13 @@
+gunicorn
+uvicorn
+uvloop
+httptools
+fastapi
+pydantic[email]
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+motor
+requests
+pytest
+pytest-ordering

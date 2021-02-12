@@ -1,5 +1,11 @@
-from fastapi import APIRouter
+# load environment variables from root path 
+import os
+from dotenv import load_dotenv
+print(os.getcwd())
+load_dotenv(os.path.join(os.getcwd(), ".env"))
 
+
+from fastapi import APIRouter
 from app.api.endpoints import login, users
 
 router = APIRouter()

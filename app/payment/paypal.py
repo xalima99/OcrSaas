@@ -62,9 +62,9 @@ class Payment:
             if isinstance(ioe, HttpError):
                 # Something went wrong server-side
                 print(ioe.status_code)
-            raise IOError(ioe.args)
+            raise ioe
 
-    def capture_request(self, order_id):
+    def capture_order(self, order_id):
         request = OrdersCaptureRequest(order_id)
 
         try:
@@ -72,16 +72,19 @@ class Payment:
             response = self.client.execute(request)
 
             # If call returns body in response, you can get the deserialized version from the result attribute of the response
-            order = response.result.id
+            order = response.result
             pprint(response.result)
             return order
         except IOError as ioe:
+            msg = None
             if isinstance(ioe, HttpError):
                 # Something went wrong server-side
-                print(ioe.status_code)
-                print(ioe.headers)
-                print(ioe)
+                msg = {"status_code": ioe.status_code,
+                        "headers": ioe.headers,
+                        "content": ioe}
+                pprint(msg)
+                raise TypeError(msg)
             else:
                 # Something went wrong client side
                 print(ioe)
-            raise ioe
+                raise ioe

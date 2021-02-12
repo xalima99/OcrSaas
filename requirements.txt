@@ -13,3 +13,4 @@ pytest
 pytest-ordering
 paypalhttp==1.0.0
 paypal-checkout-serversdk==1.0.1
+python-dotenv==0.15.0

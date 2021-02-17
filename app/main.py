@@ -5,13 +5,12 @@ from starlette.responses import Response
 
 from app.api.api import router as endpoints_router
 from app.db.client import db_close, db_connect, AsyncIOMotorClient
-from app.payment import payment_router
+
 
 app = FastAPI(title="ocr", version="1.0")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 app.include_router(endpoints_router)
-app.include_router(payment_router, tags=["Payments"])
 
 
 

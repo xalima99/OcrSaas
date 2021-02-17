@@ -4,5 +4,5 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 43200
 
 # Mongo configuration
 MONGO_MAX_CONNECTIONS = 500
-MONGO_DB = "AcrAS"
-MONGO_URL = "mongodb://localhost:27017"
+MONGO_DB = "ocr"
+MONGO_URL = f"mongodb+srv://ocr:nAHx7UZ2gj9Sda9u@cluster0-eu-west-1.zhq04.mongodb.net/{MONGO_DB}?retryWrites=true&w=majority"

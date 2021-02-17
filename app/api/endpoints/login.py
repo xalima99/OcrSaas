@@ -16,25 +16,30 @@ from app.db.client import AsyncIOMotorClient
 router = APIRouter()
 
 @router.post("/login", response_model=schemas.Token)
-async def login(new_user: schemas.UserCreate,
-    db: AsyncIOMotorClient = Depends(deps.get_db)):
+async def login(
+    db: AsyncIOMotorClient = Depends(deps.get_db), form_data: OAuth2PasswordRequestForm = Depends()
+) -> Any:
     """
     OAuth2 compatible token login, get an access token for future requests
     """
-    json_user = jsonable_encoder(new_user)
     user = await crud.user.authenticate(
-        db, email=json_user["email"], password=json_user["password"]
+        db, email=form_data.username, password=form_data.password
     )
+    print("BBB")
     if not user:
+        print("1BBB")
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     elif not crud.user.is_active(user):
+        print("2BBB")
         raise HTTPException(status_code=400, detail="Inactive user")
     # elif not crud.user.is_email_verified(user):
+    #     print("3BBB")
     #     raise HTTPException(status_code=400, detail="Email not verified")
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    print("ACCESS TOKEN EXPIRES")
     return {
         "access_token": security.create_access_token(user.id),
-        "token_type": "bearer"
+        "token_type": "bearer",
     }
     
 @router.get("/verify-email", response_model=schemas.Msg)
